@@ -1,0 +1,8 @@
+---
+## common tasks for all servers
+
+- name: common
+  hosts: all
+  remote_user: root
+  roles:
+    - ../roles/common

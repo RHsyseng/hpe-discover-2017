@@ -1,0 +1,67 @@
+---
+- set_fact:
+    ilo_name: "{{ inventory_hostname.split('.').0 }}-ilo"
+  tags:
+  - ilo
+- debug: 
+    var: ilo_name
+    verbosity: 2
+  tags:
+  - ilo
+- name: check if server is in oneview
+  oneview_server_hardware_facts:
+    config: "../group_vars/config.json"
+    name: "{{ ilo_name }}"
+  register: server_facts_exists
+  delegate_to: localhost
+  tags:
+  - mkserver
+- debug: 
+    var: server_facts_exists
+    verbosity: 2
+  tags:
+  - mkserver
+- set_fact:
+    server_exists: false
+  when:
+  - server_facts_exists.ansible_facts.server_hardwares|length == 0
+  tags:
+  - mkserver
+- set_fact:
+    server_exists: true
+  when:
+  - server_facts_exists.ansible_facts.server_hardwares|length > 0
+  tags:
+  - mkserver
+- set_fact:
+    server_facts: "{{ server_facts_exists.ansible_facts.server_hardwares.0 }}"
+  tags:
+  - mkserver
+  when:
+  - server_exists == true
+
+- set_fact:
+      model: "{{ server_facts.model }}"
+      short_model: "{{ server_facts.shortModel }}"
+      dl_model: "{{ server_facts.shortModel.split(' ').0 }}"
+  when:
+  - server_exists == true
+
+- name: get uri of profile template
+  oneview_server_profile_template_facts:
+    config: "../group_vars/config.json"
+    params:
+      filter: name='OCP-{{ dl_model }}'
+  register: profile_output
+  delegate_to: localhost
+  when:
+  - server_exists == true
+- debug:
+    var: profile_output
+    verbosity: 2
+
+- set_fact:
+    template_uri: "{{ profile_output.ansible_facts.server_profile_templates.0.uri }}"
+  when:
+  - server_exists == true
+  - profile_output.ansible_facts.server_profile_templates|length > 0

@@ -1,0 +1,11 @@
+---
+## clean up!
+
+- name: delete nodes from satellite and oneview
+  hosts: oneview
+  remote_user: root
+  gather_facts: false
+  roles:
+    - ../roles/cleanup
+  environment:
+    PYTHONPATH: "$PYTHONPATH:/usr/share/ansible"

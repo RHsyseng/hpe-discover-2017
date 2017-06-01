@@ -1,0 +1,11 @@
+---
+- name: restart autofs
+  service:
+    name: autofs
+    state: restarted
+    enabled: true
+- name: restart chronyd
+  service:
+    name: chronyd
+    state: restarted
+    enabled: true

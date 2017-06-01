@@ -1,0 +1,61 @@
+---
+- debug:
+    var: server_facts
+    verbosity: 2
+- set_fact:
+      model: "{{ server_facts.model }}"
+      short_model: "{{ server_facts.shortModel }}"
+      dl_model: "{{ server_facts.shortModel.split(' ').0 }}"
+  tags:
+  - model
+- debug: 
+    var: model
+    verbosity: 2
+  tags:
+  - model
+- debug:
+    var: short_model
+    verbosity: 2
+  tags:
+  - model
+- debug:
+    var: dl_model
+    verbosity: 2
+  tags:
+  - model
+
+- name: create a service profile and assign it to a node
+  oneview_server_profile:
+    config: "../group_vars/config.json"
+    state: present
+    data:
+      name: "{{ inventory_hostname.split('.').0 }}"
+      server_hardware: "{{ ilo_name }}"
+      description: "OpenShift Nodes - {{ short_model }}"
+      serverHardwareTypeName: "{{ short_model }} 1"
+      boot:
+        manageBoot: true
+        order: ["PXE", "CD", "USB", "HardDisk"]
+      bootMode:
+        manageMode: true
+        mode: "BIOS"
+        pxeBootPolicy: null
+      bios:
+        manageBios: true
+        overriddenSettings: "{{ bios_settings }}"
+      firmware:
+        firmwareBaselineUri: "{{ fw_baseline_uri }}"
+        #firmwareInstallType: "FirmwareOnly"
+        firmwareInstallType: "FirmwareOnlyOfflineMode"
+        forceInstallFirmware: false
+        manageFirmware: true
+      localStorage: "{{ storage_cfg }}"
+  register: output
+  delegate_to: localhost
+  tags:
+  - templates
+- debug: 
+    var: output
+    verbosity: 2
+  tags:
+  - templates

@@ -1,0 +1,12 @@
+---
+- name: get build date
+  stat:
+    path: /root/anaconda-ks.cfg
+  register: build_stat
+- name: convert to a nice string for the template
+  command: date --date='@{{ build_stat.stat.ctime }}' +'%Y.%m.%d @ %H:%M %Z'
+  register: pretty_date
+- name: create motd file
+  template:
+    src: motd.j2
+    dest: /etc/motd

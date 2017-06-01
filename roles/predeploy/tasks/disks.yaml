@@ -1,0 +1,6 @@
+---
+- name: nuke sdb on cns nodes for gluster
+  command: sgdisk -Z /dev/sdb
+  when:
+  - "'cns' in group_names"
+    

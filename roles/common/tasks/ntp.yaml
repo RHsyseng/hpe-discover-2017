@@ -1,0 +1,12 @@
+---
+- name: install chrony
+  yum: 
+    name: chrony
+    state: latest
+
+- name: config chronyd
+  template:
+    src: chrony.j2
+    dest: /etc/chrony.conf
+  notify:
+  - restart chronyd

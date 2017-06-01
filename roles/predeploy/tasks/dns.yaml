@@ -1,0 +1,49 @@
+---
+- name: get IP of load balancer
+  set_fact:
+    lb_ip: "{{ hostvars[groups['lb'][0]]['ansible_default_ipv4']['address'] }}"
+  run_once: true
+  delegate_to: localhost
+
+- name: create DNS entry for master
+  nsupdate:
+    state: present
+    key_name: "rndc-key"
+    key_secret: "r/42yYsCOcnIxvXul+xz3Q=="
+    server: "192.168.42.211"
+    zone: "hpecloud.test"
+    record: "openshift-master"
+    value: "{{ lb_ip }}"
+  run_once: true
+  delegate_to: localhost
+
+
+- set_fact:
+    region: "{{ openshift_node_labels.region }}"
+  when:
+  - openshift_node_labels is defined
+
+- debug:
+    var: region
+    verbosity: 2
+
+- name: set wildcard record
+  set_fact:
+    subdomain: "{{ openshift_master_default_subdomain.split('.').0 }}"
+
+- debug:
+    var: subdomain
+    verbosity: 2
+
+- name: update wildcard DNS entry
+  nsupdate:
+    state: multiple
+    key_name: "rndc-key"
+    key_secret: "r/42yYsCOcnIxvXul+xz3Q=="
+    server: "192.168.42.211"
+    zone: "hpecloud.test"
+    record: "*.{{ subdomain}}"
+    value: "{{ ansible_default_ipv4.address }}"
+  delegate_to: localhost
+  when:
+  - region|default('none') == 'infra'

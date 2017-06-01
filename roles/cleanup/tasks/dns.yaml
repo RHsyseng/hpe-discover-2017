@@ -1,0 +1,22 @@
+---
+- name: remove DNS entry for master
+  nsupdate:
+    state: absent
+    key_name: "rndc-key"
+    key_secret: "r/42yYsCOcnIxvXul+xz3Q=="
+    server: "192.168.42.211"
+    zone: "hpecloud.test"
+    record: "openshift-master"
+  run_once: true
+  delegate_to: localhost
+
+
+- name: delete wildcard DNS entries
+  nsupdate:
+    state: absent
+    key_name: "rndc-key"
+    key_secret: "r/42yYsCOcnIxvXul+xz3Q=="
+    server: "192.168.42.211"
+    zone: "hpecloud.test"
+    record: "*.paas"
+  delegate_to: localhost

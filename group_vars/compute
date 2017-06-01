@@ -1,0 +1,14 @@
+---
+storage_cfg:
+  controllers:
+    - deviceSlot: "Embedded"
+      importConfiguration: false
+      initialize: true
+      mode: "RAID"
+      logicalDrives:
+      - bootable: true
+        driveNumber: 1
+        driveTechnology: "SasHdd"
+        name: "os"
+        numPhysicalDrives: 2
+        raidLevel: "RAID1"

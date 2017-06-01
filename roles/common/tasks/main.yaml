@@ -1,0 +1,10 @@
+---
+- include: packages.yaml
+  tags:
+  - packages
+- include: ntp.yaml
+  tags:
+  - ntp
+- include: motd.yaml
+  tags:
+  - motd

@@ -1,0 +1,20 @@
+---
+- name: get fw driver info
+  oneview_firmware_driver_facts:
+    config: "../group_vars/config.json"
+    params:
+      sort: 'releaseDate:descending'
+      start: 0
+      count: 1
+  register: fw_info
+  delegate_to: localhost
+  tags:
+  - firmware
+- name: set fw version
+  set_fact:
+    fw_baseline_uri: "{{ fw_info['ansible_facts']['firmware_drivers'].0['uri'] }}"
+  tags:
+  - firmware
+- debug: 
+    var: fw_baseline_uri
+    verbosity: 2

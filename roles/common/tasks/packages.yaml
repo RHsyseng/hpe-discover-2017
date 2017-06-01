@@ -1,0 +1,14 @@
+---
+- name: install common packages
+  yum: 
+    name: '{{ item }}'
+    state: latest
+  tags:
+    - rhn
+  with_items:
+  - screen
+  - tmux
+  - nfs-utils
+  - sg3_utils
+  - policycoreutils-python
+  - '@network-file-system-client'

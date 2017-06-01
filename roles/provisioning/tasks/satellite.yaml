@@ -1,0 +1,83 @@
+- name: "Get Host ID from Satellite"
+  uri:
+    url: "{{ satellite_url }}/api/hosts/?search=name={{ inventory_hostname }}"
+    user: "{{ satellite_user }}"
+    password: "{{ satellite_pw }}"
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    force_basic_auth: yes
+    validate_certs: False
+    body_format: json
+    return_content: yes
+    status_code: 200
+  ignore_errors: false
+  delegate_to: localhost
+  register: check_host_response
+  tags:
+  - satellite
+- debug:
+    var: check_host_response
+    verbosity: 2
+
+- set_fact:
+    host_in_satellite: true
+  when:
+  - check_host_response.json.subtotal == 1
+  tags:
+  - satellite
+- set_fact:
+    host_in_satellite: false
+  when:
+  - check_host_response.json.subtotal == 0
+  tags:
+  - satellite
+
+- name: "Add Host to Satellite"
+  uri:
+    url: "{{ satellite_url }}/api/hosts/"
+    method: POST
+    user: "{{ satellite_user }}"
+    password: "{{ satellite_pw }}"
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    force_basic_auth: yes
+    validate_certs: False
+    return_content: yes
+    body_format: json
+    body:
+      host:
+        name: "{{ inventory_hostname }}"
+        location_id: 2
+        organization_id: 1
+        environment_id: 1
+        hostgroup_id: 1
+        build: true
+        enabled: true
+        managed: true
+        root_pass: "redhat2017"
+        overwrite: true
+        interfaces_attributes:
+          - 
+            mac: "{{ pxe_mac }}"
+            primary: true
+            type: "interface"
+            ip: "{{ ansible_host }}"
+    status_code: 201
+  ignore_errors: false
+  delegate_to: localhost
+  register: add_host_response
+  when:
+  - host_in_satellite == false
+  tags:
+  - satellite
+
+- debug:
+    var: add_host_response
+    verbosity: 2
+  when:
+  - host_in_satellite == false
+  tags:
+  - satellite
+

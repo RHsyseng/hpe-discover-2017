@@ -1,0 +1,7 @@
+---
+
+ntp_server: 'clock.corp.redhat.com'
+api_url: 'https://192.168.42.212/api/v1/workflow_job_templates/16/launch/'
+api_user: 'admin'
+api_passwd: 'SWEETPASSWORD'
+

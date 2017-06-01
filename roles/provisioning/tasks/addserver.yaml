@@ -1,0 +1,69 @@
+---
+- name: check if server is in oneview
+  oneview_server_hardware_facts:
+    config: "../group_vars/../group_vars/config.json"
+    name: "{{ ilo_name }}"
+  register: server_facts_exists
+  delegate_to: localhost
+  tags:
+  - mkserver
+- debug: 
+    var: server_facts_exists
+    verbosity: 2
+  tags:
+  - mkserver
+
+- set_fact:
+    server_exists: false
+  when:
+  - server_facts_exists.ansible_facts.server_hardwares|length == 0
+  tags:
+  - mkserver
+- set_fact:
+    server_exists: true
+  when:
+  - server_facts_exists.ansible_facts.server_hardwares|length > 0
+  tags:
+  - mkserver
+
+- name: add a server to oneview
+  oneview_server_hardware:
+    config: "../group_vars/config.json"
+    state: present
+    data:
+      hostname: "{{ ilo_ip }}"
+      username: "{{ ilo_username }}"
+      password: "{{ ilo_passwd }}"
+      force: false
+      licensingIntent: "OneViewNoiLO"
+      configurationState: "Managed"
+  register: server_facts_new
+  delegate_to: localhost
+  tags:
+  - mkserver
+  when:
+  - server_exists == false
+- debug: 
+    var: server_facts_new
+    verbosity: 2
+  tags:
+  - mkserver
+  when:
+  - server_exists == false
+
+- debug: 
+    var: server_facts_new
+    verbosity: 2
+
+- set_fact:
+    server_facts: "{{ server_facts_new.ansible_facts.server_hardware }}"
+  tags:
+  - mkserver
+  when:
+  - server_exists == false
+- set_fact:
+    server_facts: "{{ server_facts_exists.ansible_facts.server_hardwares.0 }}"
+  tags:
+  - mkserver
+  when:
+  - server_exists == true

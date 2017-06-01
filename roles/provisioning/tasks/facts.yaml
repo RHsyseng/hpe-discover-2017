@@ -1,0 +1,36 @@
+---
+- set_fact:
+    ilo_name: "{{ inventory_hostname.split('.').0 }}-ilo"
+  tags:
+  - ilo
+- debug: 
+    var: ilo_name
+    verbosity: 2
+  tags:
+  - ilo
+
+- name: get facts from ilo
+  hpilo_facts:
+    host: "{{ ilo_ip }}"
+    login: "{{ ilo_username }}"
+    password: "{{ ilo_passwd }}"
+  register: ilo_facts
+  delegate_to: localhost
+  tags:
+  - ilo
+- debug: 
+    var: ilo_facts
+    verbosity: 3
+  tags:
+  - ilo
+
+- name: set PXE MAC address
+  set_fact:
+    pxe_mac: "{{ ilo_facts.ansible_facts.hw_eth0.macaddress }}"
+  tags:
+  - ilo
+- debug: 
+    var: pxe_mac
+    verbosity: 2
+  tags:
+  - ilo
