@@ -1,15 +1,17 @@
-[compute]
-ocp-infra1.hpecloud.test	ansible_host=192.168.42.170 ilo_ip=192.168.42.133
-ocp-infra2.hpecloud.test	ansible_host=192.168.42.171 ilo_ip=192.168.42.134
-ocp-infra0.hpecloud.test	ansible_host=192.168.42.172 ilo_ip=192.168.42.135
-ocp-master1.hpecloud.test	ansible_host=192.168.42.173 ilo_ip=192.168.42.136
-ocp-master2.hpecloud.test	ansible_host=192.168.42.174 ilo_ip=192.168.42.137
-ocp-master3.hpecloud.test	ansible_host=192.168.42.175 ilo_ip=192.168.42.138
+[infra]
+ocp-infra1.hpecloud.test	ansible_host=192.168.2.170 ilo_ip=192.168.2.133
+ocp-infra2.hpecloud.test	ansible_host=192.168.2.171 ilo_ip=192.168.2.134
+ocp-infra0.hpecloud.test	ansible_host=192.168.2.172 ilo_ip=192.168.2.135
+[masters]
+ocp-master1.hpecloud.test	ansible_host=192.168.2.173 ilo_ip=192.168.2.136
+ocp-master2.hpecloud.test	ansible_host=192.168.2.174 ilo_ip=192.168.2.137
+ocp-master3.hpecloud.test	ansible_host=192.168.2.175 ilo_ip=192.168.2.138
 [cns]
-ocp-cns1.hpecloud.test		ansible_host=192.168.42.176 ilo_ip=192.168.42.140
-ocp-cns2.hpecloud.test		ansible_host=192.168.42.177 ilo_ip=192.168.42.141
-ocp-cns3.hpecloud.test		ansible_host=192.168.42.178 ilo_ip=192.168.42.142
+ocp-cns1.hpecloud.test		ansible_host=192.168.2.176 ilo_ip=192.168.2.140
+ocp-cns2.hpecloud.test		ansible_host=192.168.2.177 ilo_ip=192.168.2.141
+ocp-cns3.hpecloud.test		ansible_host=192.168.2.178 ilo_ip=192.168.2.142
 
 [oneview:children]
-compute
+infra
+masters
 cns

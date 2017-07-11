@@ -1,7 +1,7 @@
 ---
 - name: check if server is in oneview
   oneview_server_hardware_facts:
-    config: "../group_vars/../group_vars/config.json"
+    config: "../group_vars/config.json"
     name: "{{ ilo_name }}"
   register: server_facts_exists
   delegate_to: localhost
@@ -33,7 +33,7 @@
     data:
       hostname: "{{ ilo_ip }}"
       username: "{{ ilo_username }}"
-      password: "{{ ilo_passwd }}"
+      password: "{{ ilo_pw }}"
       force: false
       licensingIntent: "OneViewNoiLO"
       configurationState: "Managed"

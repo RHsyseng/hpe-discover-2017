@@ -1,0 +1,18 @@
+---
+- name: required gluster ports
+  lineinfile:
+    dest: /etc/sysconfig/iptables
+    state: present
+    insertbefore: 'COMMIT'
+    line: "{{ item }}"
+  with_items:
+  - '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 24007 -j ACCEPT'
+  - '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 24008 -j ACCEPT'
+  - '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 2222 -j ACCEPT'
+  - '-A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m multiport --dports 49152:49664 -j ACCEPT'
+
+- name: reload iptables
+  systemd:
+    name: iptables
+    state: reloaded
+

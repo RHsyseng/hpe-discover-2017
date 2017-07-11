@@ -15,4 +15,4 @@ openshift_hosted_registry_storage_volume_size: 10Gi
 openshift_hosted_metrics_deploy: false
 openshift_hosted_logging_deploy: false
 openshift_master_default_subdomain: paas.hpecloud.test
-
+openshift_master_htpasswd_users: {'davidc': '$apr1$znPqASZl$WjOV1pFe4diJJPhjZgW2q1', 'kbell': '$apr1$.WBeJqbh$aic2L/5dxbnkdoEC0UWiT.', 'gluster': '$apr1$NXiV2AwW$66Tp8BIfUTdyd7aueTt8a0'}

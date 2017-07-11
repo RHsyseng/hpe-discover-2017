@@ -1,0 +1,58 @@
+{
+    "clusters": [
+        {
+            "nodes": [
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "ocp-cns1.hpecloud.test"
+                            ],
+                            "storage": [
+                                "{{ hostvars['ocp-cns1.hpecloud.test']['ansible_default_ipv4']['address'] }}"
+                            ]
+                        },
+                        "zone": 1
+                    },
+                    "devices": [
+                        "/dev/sdb"
+                    ]
+                },
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "ocp-cns2.hpecloud.test"
+                            ],
+                            "storage": [
+                                "{{ hostvars['ocp-cns2.hpecloud.test']['ansible_eno1']['ipv4']['address'] }}" 
+                            ]
+                        },
+                        "zone": 1
+                    },
+                    "devices": [
+                        "/dev/sdb"
+                    ]
+                },
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "ocp-cns3.hpecloud.test"
+                            ],
+                            "storage": [
+                                "{{ hostvars['ocp-cns3.hpecloud.test']['ansible_eno1']['ipv4']['address'] }}" 
+                            ]
+                        },
+                        "zone": 1
+                    },
+                    "devices": [
+                        "/dev/sdb"
+                     ]
+                }
+            ]
+        }
+    ]
+}
+
+

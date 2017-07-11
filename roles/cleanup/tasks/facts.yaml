@@ -8,6 +8,17 @@
     verbosity: 2
   tags:
   - ilo
+
+- name: set satellite pw
+  set_fact:
+    satellite_pw: "{{ satellite_pw | replace('\n', '')}}"
+  no_log: true
+- name: set ipmi password
+  set_fact:
+    ilo_pw: "{{ ilo_pw | replace('\n','') }}"
+  no_log: true
+
+
 - name: check if server is in oneview
   oneview_server_hardware_facts:
     config: "../group_vars/config.json"

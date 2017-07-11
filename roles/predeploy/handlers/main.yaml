@@ -1,6 +1,6 @@
 ---
-- name: restart chronyd
+- name: restart docker
   service:
-    name: chronyd
+    name: docker
     state: restarted
     enabled: true

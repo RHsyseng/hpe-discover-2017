@@ -1,6 +1,6 @@
 ---
 - name: install common packages
-  yum: 
+  package: 
     name: '{{ item }}'
     state: latest
   tags:

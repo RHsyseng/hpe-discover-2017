@@ -1,0 +1,22 @@
+---
+- name: install ocp prereq packages
+  package: 
+    name: '{{ item }}'
+    state: latest
+  with_items:
+  - wget
+  - git
+  - net-tools
+  - bind-utils
+  - iptables-services
+  - bridge-utils
+  - bash-completion
+  - kexec-tools
+  - sos
+  - psacct
+  - atomic-openshift-utils
+  - atomic-openshift-excluder
+  - atomic-openshift-docker-excluder
+
+- name: run excluder->unexclude
+  command: atomic-openshift-excluder unexclude

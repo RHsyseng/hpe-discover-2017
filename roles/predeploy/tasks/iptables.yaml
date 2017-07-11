@@ -1,0 +1,41 @@
+---
+#- name: allow_tcp_24007
+#  command: iptables -A INPUT -p tcp -m tcp --dport 24007 -j ACCEPT
+
+#- name: allow_tcp_24007
+#  command: iptables -A INPUT -p tcp -m tcp --dport 24008 -j ACCEPT
+
+#- name: allow_tcp_24007
+#  command: iptables -A INPUT -p tcp -m tcp --dport 2222 -j ACCEPT
+
+#- name: allow tcp 449152 - 49664
+#  command: iptables -A INPUT -p tcp --dport 49152:49664 -j ACCEPT  
+
+#- name: open up required ports
+#  iptables:
+#    chain: INPUT
+#    protocol: tcp
+#    destination_port: "{{ item }}"
+#    jump: ACCEPT
+#  register: iptables
+#  with_items:
+#  - 111
+#  - 24007
+#  - 24008
+#  - 2222
+#  - 49152:49664
+#  - 24009:24108
+- name: open up required ports
+  iptables:
+    chain: INPUT
+    protocol: all
+    source: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}"
+    jump: ACCEPT
+  register: iptables
+  with_items:
+  - "{{ groups['cns'] }}"
+
+- name:
+  shell: iptables-save > /etc/sysconfig/iptables
+  when:
+  - iptables|changed

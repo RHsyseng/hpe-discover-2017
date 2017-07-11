@@ -1,0 +1,7 @@
+---
+- name: loging as cns gluster
+  command: oc login -u gluster -p n0tP@ssw0rd
+
+
+- name: deploy cns
+  command: cns-deploy -n rhgs-cluster -g /usr/share/heketi/topology-hpe.json -y

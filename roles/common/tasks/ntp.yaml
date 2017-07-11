@@ -1,6 +1,6 @@
 ---
 - name: install chrony
-  yum: 
+  package: 
     name: chrony
     state: latest
 

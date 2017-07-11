@@ -1,0 +1,7 @@
+---
+- template:
+   src: topology-hpe.j2
+   dest: /usr/share/heketi/topology-hpe.json
+   owner: bin
+   group: wheel
+   mode: 0644

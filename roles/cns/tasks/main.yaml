@@ -1,0 +1,33 @@
+---
+- include: disks.yaml
+  when:
+  - "'cns' in group_names"
+  tags:
+  - disks
+
+- include: iptables.yaml
+  when:
+  - "'cns' in group_names"
+  tags:
+  - iptables
+
+- include: packages.yaml
+  when:
+  - "ansible_fqdn == groups['masters'][0]"
+
+- include: oc.yaml
+  when:
+   - "ansible_fqdn == groups['masters'][0]"
+
+- include: heketitopo.yaml
+  when:
+  - "ansible_fqdn == groups['masters'][0]"
+  tags:
+  - json
+
+- include: cnsdeploy.yaml
+  when:
+  - "ansible_fqdn == groups['masters'][0]"
+  tags:
+  - cnsdeploy
+

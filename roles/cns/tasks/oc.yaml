@@ -1,0 +1,18 @@
+---
+- name: loging as cns cluster admin
+  command: oc login -u system:admin -n default
+
+- name:  add cluster admin role for gluster
+  command: oadm policy add-cluster-role-to-user cluster-admin gluster
+
+- name: login as gluster user
+  command: oc login -u gluster -p n0tP@ssw0rd
+
+- name: create storage project
+  command: oc new-project rhgs-cluster
+
+- name: add scc policy default
+  command: oadm policy add-scc-to-user privileged -z default
+
+- name: add scc policy router 
+  command: oadm policy add-scc-to-user privileged -z router

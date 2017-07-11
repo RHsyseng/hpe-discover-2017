@@ -2,10 +2,11 @@
 ## bare metal provisioning
 
 - name: baremetal provisioning
-  hosts: oneview
+  hosts: all
   remote_user: root
   gather_facts: false
   roles:
+    - ../roles/passwords
     - ../roles/provisioning
   environment:
     PYTHONPATH: "$PYTHONPATH:/usr/share/ansible"

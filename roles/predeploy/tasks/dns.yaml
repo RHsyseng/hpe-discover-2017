@@ -5,18 +5,23 @@
   run_once: true
   delegate_to: localhost
 
+- name: get IP of DNS server via the load balancer
+  set_fact:
+    dns_server: "{{ hostvars[groups['lb'][0]]['ansible_dns']['nameservers'].0 }}"
+  run_once: true
+  delegate_to: localhost
+
 - name: create DNS entry for master
   nsupdate:
     state: present
     key_name: "rndc-key"
     key_secret: "r/42yYsCOcnIxvXul+xz3Q=="
-    server: "192.168.42.211"
-    zone: "hpecloud.test"
-    record: "openshift-master"
+    server: "{{ dns_server }}"
+    zone: "{{ ansible_domain }}"
+    record: "{{ openshift_master_cluster_public_hostname.split('.').0 }}"
     value: "{{ lb_ip }}"
   run_once: true
   delegate_to: localhost
-
 
 - set_fact:
     region: "{{ openshift_node_labels.region }}"
@@ -27,23 +32,44 @@
     var: region
     verbosity: 2
 
-- name: set wildcard record
+- name: set subdomain record
   set_fact:
     subdomain: "{{ openshift_master_default_subdomain.split('.').0 }}"
+  run_once: true
+  delegate_to: localhost
 
 - debug:
     var: subdomain
     verbosity: 2
 
-- name: update wildcard DNS entry
-  nsupdate:
-    state: multiple
-    key_name: "rndc-key"
-    key_secret: "r/42yYsCOcnIxvXul+xz3Q=="
-    server: "192.168.42.211"
-    zone: "hpecloud.test"
-    record: "*.{{ subdomain}}"
-    value: "{{ ansible_default_ipv4.address }}"
+- name: define router IP
+  set_fact:
+    router_ip: '{{ ansible_default_ipv4.address }}'
   delegate_to: localhost
   when:
   - region|default('none') == 'infra'
+
+- name: blacklist non-router IPs
+  set_fact:
+    router_ip: '0.0.0.0'
+  delegate_to: localhost
+  when:
+  - region|default('none') != 'infra'
+
+- name: create router IP list
+  set_fact:
+    router_ips: "{{ groups['all']|map('extract', hostvars, 'router_ip')|list|unique|difference(['0.0.0.0']) }}"
+  delegate_to: localhost
+  run_once: true
+
+- name: update wildcard DNS entry
+  nsupdate:
+    state: present
+    key_name: "rndc-key"
+    key_secret: "r/42yYsCOcnIxvXul+xz3Q=="
+    server: "{{ dns_server }}"
+    zone: "{{ ansible_domain }}"
+    record: "*.{{ subdomain }}"
+    value: "{{ router_ips }}"
+  delegate_to: localhost
+  run_once: true

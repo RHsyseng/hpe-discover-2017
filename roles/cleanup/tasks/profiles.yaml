@@ -15,19 +15,19 @@
     var: output
     verbosity: 2
 
-- name: get list of any templates still attached to profile
-  oneview_server_profile_facts:
-    config: "../group_vars/config.json"
-    params:
-      filter: serverProfileTemplateUri='{{ template_uri }}'
-  register: profile_list
-  delegate_to: localhost
-  when:
-  - server_exists == true
-  - template_uri is defined
-- debug:
-    var: profile_list
-    verbosity: 2
+#- name: get list of any templates still attached to profile
+#  oneview_server_profile_facts:
+#    config: "../group_vars/config.json"
+#    params:
+#      filter: serverProfileTemplateUri='{{ template_uri }}'
+#  register: profile_list
+#  delegate_to: localhost
+#  when:
+#  - server_exists == true
+#  - template_uri is defined
+#- debug:
+#    var: profile_list
+#    verbosity: 2
 
 #- name: delete service profile template
 #  oneview_server_profile_template:

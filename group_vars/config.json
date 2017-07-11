@@ -1,9 +1,9 @@
 {
-  "ip": "192.168.42.230",
+  "ip": "192.168.2.230",
   "credentials": {
     "userName": "Administrator",
     "authLoginDomain": "",
-    "password": "SWEETPASSWORD"
+    "password": "PASSWORD"
   },
   "api_version": 300
 }

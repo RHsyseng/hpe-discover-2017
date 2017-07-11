@@ -1,13 +1,25 @@
 ---
 # set some vars
 - include: ./facts.yaml
+  tags:
+  - facts
 # add the server to oneview
 - include: ./addserver.yaml
+  tags:
+  - add2oneview
 # get firmware version
 - include: ./firmware.yaml
-# create profile templates -> profiles
+  tags:
+  - fw
+# create server profiles
 - include: ./profiles.yaml
+  tags:
+  - profiles
 # create the host in satellite
 - include: ./satellite.yaml
+  tags:
+  - satellite
 # power on server to kickstart over pxe
 - include: ./poweron.yaml
+  tags:
+  - power

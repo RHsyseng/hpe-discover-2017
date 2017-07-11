@@ -1,7 +1,41 @@
 ---
-
-ntp_server: 'clock.corp.redhat.com'
-api_url: 'https://192.168.42.212/api/v1/workflow_job_templates/16/launch/'
-api_user: 'admin'
-api_passwd: 'SWEETPASSWORD'
-
+## satellite vars
+satellite_user: "admin"
+satellite_url: "https://192.168.2.211"
+location_id: 2
+organization_id: 1
+environment_id: 1
+hostgroup_id: 1
+ansible_domain: hpecloud.test
+ntp_server: "clock.corp.redhat.com"
+rndc_key: "r/42yYsCOcnIxvXul+xz3Q=="
+## oneview vars
+ilo_username: "Administrator"
+bios_settings:
+- id: "CustomPostMessage"
+  value: "!! automate the planet !!"
+- id: "MinProcIdlePkgState"
+  value: "NoState"
+- id: "EnergyPerfBias"
+  value: "MaxPerf"
+- id: "PowerProfile"
+  value: "MaxPerf"
+- id: "IntelQpiPowerManagement"
+  value: "Disabled"
+- id: "PowerRegulator"
+  value: "StaticHighPerf"
+- id: "MinProcIdlePower"
+  value: "NoCStates"
+storage_cfg:
+  controllers:
+    - deviceSlot: "Embedded"
+      importConfiguration: false
+      initialize: true
+      mode: "RAID"
+      logicalDrives:
+      - bootable: true
+        driveNumber: 1
+        driveTechnology: "SasHdd"
+        name: "os"
+        numPhysicalDrives: 2
+        raidLevel: "RAID1"

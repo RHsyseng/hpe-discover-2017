@@ -9,11 +9,21 @@
   tags:
   - ilo
 
+- name: set satellite pw
+  set_fact:
+    satellite_pw: "{{ satellite_pw | replace('\n', '')}}"
+  no_log: true
+- name: set ilo password
+  set_fact:
+    ilo_pw: "{{ ilo_pw | replace('\n','') }}"
+  no_log: true
+
+
 - name: get facts from ilo
   hpilo_facts:
     host: "{{ ilo_ip }}"
     login: "{{ ilo_username }}"
-    password: "{{ ilo_passwd }}"
+    password: "{{ ilo_pw }}"
   register: ilo_facts
   delegate_to: localhost
   tags:
@@ -31,6 +41,37 @@
   - ilo
 - debug: 
     var: pxe_mac
+    verbosity: 2
+  tags:
+  - ilo
+
+- name: set PXE IP of new host
+  set_fact:
+    pxe_ip: "{{ ansible_host.split('.').0 }}.{{ ansible_host.split('.').1 }}.{{ ansible_host.split('.').2 }}.{{ ansible_host.split('.').3|int + 20 }}"
+- debug:
+    var: pxe_ip
+    verbosity: 2
+  
+
+
+- name: set slave0 MAC address
+  set_fact:
+    slave0_mac: "{{ ilo_facts.ansible_facts.hw_eth4.macaddress }}"
+  tags:
+  - ilo
+- debug: 
+    var: slave0_mac
+    verbosity: 2
+  tags:
+  - ilo
+
+- name: set slave1 MAC address
+  set_fact:
+    slave1_mac: "{{ ilo_facts.ansible_facts.hw_eth6.macaddress }}"
+  tags:
+  - ilo
+- debug: 
+    var: slave1_mac
     verbosity: 2
   tags:
   - ilo

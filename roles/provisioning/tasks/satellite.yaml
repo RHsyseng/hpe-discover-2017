@@ -49,21 +49,44 @@
     body:
       host:
         name: "{{ inventory_hostname }}"
-        location_id: 2
-        organization_id: 1
-        environment_id: 1
-        hostgroup_id: 1
+        location_id: "{{ location_id }}"
+        organization_id: "{{ organization_id }}"
+        environment_id: "{{ environment_id }}"
+        hostgroup_id: "{{ hostgroup_id }}"
         build: true
         enabled: true
         managed: true
-        root_pass: "redhat2017"
+        root_pass: "{{ root_pw }}"
         overwrite: true
         interfaces_attributes:
           - 
             mac: "{{ pxe_mac }}"
-            primary: true
+            primary: false
             type: "interface"
+            identifier: "pxe0"
+            provision: true
+            ip: "{{ pxe_ip }}"
+            managed: true
+            subnet_id: 1
+            domain_id: 1
+          - 
+            mac: "{{ slave0_mac }}"
+            primary: true
+            type: "bond"
             ip: "{{ ansible_host }}"
+            mode: "active-backup"
+            identifier: "bond0"
+            attached_devices: "slave0,slave1"
+          - 
+            mac: "{{ slave0_mac }}"
+            primary: false
+            type: "interface"
+            identifier: "slave0"
+          - 
+            mac: "{{ slave1_mac }}"
+            primary: false
+            type: "interface"
+            identifier: "slave1"
     status_code: 201
   ignore_errors: false
   delegate_to: localhost
