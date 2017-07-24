@@ -1,8 +1,6 @@
 ---
 - name: remove a server from oneview
   oneview_server_hardware:
-    #config: "../group_vars/#config.json"
-    state: absent
     data:
       name: "{{ ilo_name }}"
       force: false

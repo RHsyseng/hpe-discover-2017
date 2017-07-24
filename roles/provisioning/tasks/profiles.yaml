@@ -26,8 +26,6 @@
 
 - name: create a service profile and assign it to a node
   oneview_server_profile:
-    #config: "../group_vars/config.json"
-    state: present
     data:
       name: "{{ inventory_hostname.split('.').0 }}"
       server_hardware: "{{ ilo_name }}"

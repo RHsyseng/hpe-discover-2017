@@ -1,8 +1,6 @@
 ---
 - name: power on server
   oneview_server_hardware:
-    #config: "../group_vars/config.json"
-    state: power_state_set
     data:
       name: "{{ ilo_name }}"
       powerStateData:

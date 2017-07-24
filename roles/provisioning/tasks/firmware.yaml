@@ -1,8 +1,6 @@
 ---
 - name: get fw driver info
   oneview_firmware_driver_facts:
-    #config: "../group_vars/config.json"
-    params:
       sort: 'releaseDate:descending'
       start: 0
       count: 1
