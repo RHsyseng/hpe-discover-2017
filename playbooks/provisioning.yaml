@@ -1,12 +1,22 @@
 ---
 ## bare metal provisioning
 
-- name: baremetal provisioning
+- name: get passwords
   hosts: all
   remote_user: root
   gather_facts: false
   roles:
     - ../roles/passwords
+
+- name: baremetal provisioning
+  hosts: all
+  remote_user: root
+  gather_facts: false
+  roles:
     - ../roles/provisioning
   environment:
     PYTHONPATH: "$PYTHONPATH:/usr/share/ansible"
+    ONEVIEWSDK_IP: "{{ oneview_auth.ip }}"
+    ONEVIEWSDK_USERNAME: "{{ oneview_auth.username }}"
+    ONEVIEWSDK_PASSWORD: "{{ oneview_pw }}"
+    ONEVIEWSDK_API_VERSION: "{{ oneview_auth.api_version }}"

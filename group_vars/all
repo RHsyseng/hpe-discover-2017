@@ -1,15 +1,13 @@
 ---
 ## satellite vars
 satellite_user: "admin"
-satellite_url: "https://192.168.2.211"
+satellite_url: "https://192.168.1.211"
 location_id: 2
 organization_id: 1
 environment_id: 1
 hostgroup_id: 1
 ansible_domain: hpecloud.test
 ntp_server: "clock.corp.redhat.com"
-rndc_key: "r/42yYsCOcnIxvXul+xz3Q=="
-## oneview vars
 ilo_username: "Administrator"
 bios_settings:
 - id: "CustomPostMessage"
@@ -39,3 +37,9 @@ storage_cfg:
         name: "os"
         numPhysicalDrives: 2
         raidLevel: "RAID1"
+## oneview vars
+oneview_auth:
+  ip: "192.168.1.233"
+  username: "Administrator"
+  api_version: 300
+

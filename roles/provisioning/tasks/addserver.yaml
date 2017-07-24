@@ -1,7 +1,8 @@
 ---
 - name: check if server is in oneview
   oneview_server_hardware_facts:
-    config: "../group_vars/config.json"
+#    #config: "../group_vars/config.json"
+#    #config: "{{ oneview_auth }}"
     name: "{{ ilo_name }}"
   register: server_facts_exists
   delegate_to: localhost
@@ -28,7 +29,7 @@
 
 - name: add a server to oneview
   oneview_server_hardware:
-    config: "../group_vars/config.json"
+#    #config: "../group_vars/config.json"
     state: present
     data:
       hostname: "{{ ilo_ip }}"

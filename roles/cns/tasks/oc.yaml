@@ -6,7 +6,7 @@
   command: oadm policy add-cluster-role-to-user cluster-admin gluster
 
 - name: login as gluster user
-  command: oc login -u gluster -p n0tP@ssw0rd
+  command: oc login -u gluster -p {{ gluster_pw }}
 
 - name: create storage project
   command: oc new-project rhgs-cluster
@@ -16,3 +16,4 @@
 
 - name: add scc policy router 
   command: oadm policy add-scc-to-user privileged -z router
+

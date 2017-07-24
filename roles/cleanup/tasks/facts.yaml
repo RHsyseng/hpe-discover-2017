@@ -21,7 +21,7 @@
 
 - name: check if server is in oneview
   oneview_server_hardware_facts:
-    config: "../group_vars/config.json"
+#    #config: "../group_vars/#config.json"
     name: "{{ ilo_name }}"
   register: server_facts_exists
   delegate_to: localhost
@@ -60,7 +60,7 @@
 
 - name: get uri of profile template
   oneview_server_profile_template_facts:
-    config: "../group_vars/config.json"
+#    #config: "../group_vars/#config.json"
     params:
       filter: name='OCP-{{ dl_model }}'
   register: profile_output

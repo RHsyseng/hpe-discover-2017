@@ -11,6 +11,7 @@
     validate_certs: False
     return_content: yes
     status_code: 200
+    timeout: 120
   ignore_errors: false
   register: check_host_response
   delegate_to: localhost
@@ -40,6 +41,7 @@
     validate_certs: False
     return_content: yes
     status_code: 200
+    timeout: 120
   ignore_errors: false
   register: rm_host_response
   delegate_to: localhost

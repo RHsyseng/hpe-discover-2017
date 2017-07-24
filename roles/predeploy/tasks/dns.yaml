@@ -15,7 +15,7 @@
   nsupdate:
     state: present
     key_name: "rndc-key"
-    key_secret: "r/42yYsCOcnIxvXul+xz3Q=="
+    key_secret: "{{ rndc_key }}"
     server: "{{ dns_server }}"
     zone: "{{ ansible_domain }}"
     record: "{{ openshift_master_cluster_public_hostname.split('.').0 }}"

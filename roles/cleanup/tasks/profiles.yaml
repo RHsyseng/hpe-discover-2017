@@ -1,7 +1,7 @@
 ---
 - name: unassign server profile
   oneview_server_profile:
-    config: "../group_vars/config.json"
+    #config: "../group_vars/#config.json"
     state: absent
     data:
       name: "{{ inventory_hostname.split('.').0 }}"
@@ -17,7 +17,7 @@
 
 #- name: get list of any templates still attached to profile
 #  oneview_server_profile_facts:
-#    config: "../group_vars/config.json"
+#    #config: "../group_vars/#config.json"
 #    params:
 #      filter: serverProfileTemplateUri='{{ template_uri }}'
 #  register: profile_list
@@ -31,7 +31,7 @@
 
 #- name: delete service profile template
 #  oneview_server_profile_template:
-#    config: "../group_vars/config.json"
+#    #config: "../group_vars/#config.json"
 #    state: absent
 #    data:
 #      name: "OCP-{{ dl_model }}"

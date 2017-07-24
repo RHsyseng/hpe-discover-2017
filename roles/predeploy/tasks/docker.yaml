@@ -1,20 +1,22 @@
 ---
-- name: install docker
-  package: 
-    name: '{{ item }}'
-    state: latest
-  with_items:
-  - docker
+#- name: install docker
+#  package: 
+#    name: '{{ item }}'
+#    state: latest
+#  with_items:
+#  - docker
+
 
 - name: configure docker-storage-setup
   lineinfile:
     path: /etc/sysconfig/docker-storage-setup
     line: "VG=docker-vg"
+    create: yes
   register: dss
 
-- name: run docker storage setup
-  command: docker-storage-setup
-  notify: restart docker
-  when:
-  - dss|changed
+#- name: run docker storage setup
+#  command: docker-storage-setup
+#  notify: restart docker
+#  when:
+#  - dss|changed
     

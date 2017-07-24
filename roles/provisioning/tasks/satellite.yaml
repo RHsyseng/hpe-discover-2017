@@ -11,6 +11,7 @@
     body_format: json
     return_content: yes
     status_code: 200
+    timeout: 120
   ignore_errors: false
   delegate_to: localhost
   register: check_host_response
@@ -87,6 +88,7 @@
             primary: false
             type: "interface"
             identifier: "slave1"
+    timeout: 120
     status_code: 201
   ignore_errors: false
   delegate_to: localhost

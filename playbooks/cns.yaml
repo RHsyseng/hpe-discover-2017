@@ -4,6 +4,7 @@
   gather_facts: true
   remote_user: root
   roles:
+    - ../roles/passwords
     - ../roles/cns
   environment:
     PYTHONPATH: "$PYTHONPATH:/usr/share/ansible"

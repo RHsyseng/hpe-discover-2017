@@ -14,9 +14,9 @@
   - kexec-tools
   - sos
   - psacct
-  - atomic-openshift-utils
-  - atomic-openshift-excluder
-  - atomic-openshift-docker-excluder
+#  - atomic-openshift-utils
+#  - atomic-openshift-excluder
+#  - atomic-openshift-docker-excluder
 
-- name: run excluder->unexclude
-  command: atomic-openshift-excluder unexclude
+#- name: run excluder->unexclude
+#  command: atomic-openshift-excluder unexclude
