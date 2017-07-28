@@ -1,16 +1,23 @@
-# playbooks to automate HPE OneView
+# Playbooks to Automate HPE OneView
 
 This is a set of ansible playbooks to provision bare-metal servers using HPE OneView and Red Hat Satellite.
 
-# setup
+**NOTE** The playbooks provided in the GitHub repository are not supported by Red Hat. They merely provide a mechanism that can be used to build out an OpenShift Container Platform environment using HPE OneView and Red Hat Satellite.
 
-one time:
+# Setup
+
+The playbooks in this repo are to support a [Red Hat Reference Architcture](https://access.redhat.com/articles/3128171) in which the full explanation of the logic and usage of these playbooks is provided.
+
+In brief:
+
+Prepare environment:
+
 ~~~
 git clone https://github.com/HewlettPackard/oneview-ansible.git /usr/share/ansible/
 sudo pip install hpOneView
 ~~~
 
-Modify group_vars/* to suit the target environment. Update group_vars/config.json to match the HPE OneView login information. Create an inventory file with the desired hostnames and IPs that will be statically provisioned by Satellite:
+Modify group_vars/* to suit the target environment. Create an inventory file with the desired hostnames and IPs that will be statically provisioned by Satellite:
 
 ~~~
 ## required for provisoning
@@ -37,10 +44,9 @@ $ ansible-vault encrypt passwords.yaml --output=roles/passwords/tasks/main.yaml
 
 The Satellite task assumes one NIC for provisioning and a bonded pair of 10gig NICs for all other traffic. Modify _interface_attributes_ in _roles/provisioning/tasks/satellite.yaml_ if the NIC configuration differs.
 
-# run it
+# Run it
 
 ~~~
 $ ansible-playbook -i hosts playbooks/provisioning.yaml --ask-vault-pass
 ~~~
 
-There are additional playbooks to expore that provides some common configuration, as well as pre-deployment and post-deployment steps for deploying OpenShift with Container Native Storage.
