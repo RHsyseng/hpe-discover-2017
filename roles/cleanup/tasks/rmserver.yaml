@@ -1,6 +1,7 @@
 ---
 - name: remove a server from oneview
   oneview_server_hardware:
+    state: absent
     data:
       name: "{{ ilo_name }}"
       force: false

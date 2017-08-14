@@ -1,6 +1,7 @@
 ---
 - name: power off server
   oneview_server_hardware:
+    state: power_state_set
     data:
       name: "{{ ilo_name }}"
       powerStateData:

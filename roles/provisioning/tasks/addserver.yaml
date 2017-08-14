@@ -27,6 +27,7 @@
 
 - name: add a server to oneview
   oneview_server_hardware:
+    state: present
     data:
       hostname: "{{ ilo_ip }}"
       username: "{{ ilo_username }}"
