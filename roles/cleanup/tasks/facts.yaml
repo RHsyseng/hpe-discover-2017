@@ -58,6 +58,7 @@
 
 - name: get uri of profile template
   oneview_server_profile_template_facts:
+    params:
       filter: name='OCP-{{ dl_model }}'
   register: profile_output
   delegate_to: localhost

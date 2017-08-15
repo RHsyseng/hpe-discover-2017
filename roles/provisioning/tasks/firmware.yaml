@@ -1,6 +1,7 @@
 ---
 - name: get fw driver info
   oneview_firmware_driver_facts:
+    params:
       sort: 'releaseDate:descending'
       start: 0
       count: 1
